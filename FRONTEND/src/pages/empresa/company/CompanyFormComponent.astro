@@ -887,6 +887,60 @@ const { company = {} } = Astro.props;
 
     return dv === rutDv;
   }
+  
+
+  function populateForm(data) {
+  if (!data) return;
+
+  // RUT
+  const rutInput = document.getElementById("company-rut") as HTMLInputElement;
+  if (rutInput && data.rut) {
+    rutInput.value = formatRut(data.rut);
+  }
+
+  // Razón Social
+  const nameInput = document.getElementById("company-name") as HTMLInputElement;
+  if (nameInput && data.name) {
+    nameInput.value = data.name;
+  }
+
+  // Giro Comercial
+  const activityInput = document.getElementById("company-activity") as HTMLInputElement;
+  if (activityInput && data.activity) {
+    activityInput.value = data.activity;
+  }
+
+  // Email
+  const emailInput = document.getElementById("company-email") as HTMLInputElement;
+  if (emailInput && data.email) {
+    emailInput.value = data.email;
+  }
+
+  // Teléfono
+  const phoneInput = document.getElementById("company-phone") as HTMLInputElement;
+  if (phoneInput && data.phone) {
+    phoneInput.value = data.phone;
+  }
+
+  // Dirección
+  const addressInput = document.getElementById("company-address") as HTMLInputElement;
+  if (addressInput && data.address) {
+    addressInput.value = data.address;
+  }
+
+  // Ciudad
+  const cityInput = document.getElementById("company-city") as HTMLInputElement;
+  if (cityInput && data.city) {
+    cityInput.value = data.city;
+  }
+
+  // Comuna
+  const communeInput = document.getElementById("company-commune") as HTMLInputElement;
+  if (communeInput && data.commune) {
+    communeInput.value = data.commune;
+  }
+}
+
 
   // Función para formatear RUT
   function formatRut(rut) {
@@ -1307,6 +1361,15 @@ const { company = {} } = Astro.props;
           searchBtn.click();
         }
       });
+
+      // Listener para autocompletar cuando el usuario salga del input
+      rutInput.addEventListener("blur", function (this: HTMLInputElement) {
+        const rut = this.value;
+
+        if (validateRut(rut)) {
+          searchCompanyByRut(rut);
+        }
+      });
     }
 
     if (searchBtn) {
@@ -1460,6 +1523,5 @@ const { company = {} } = Astro.props;
       // Precargar los datos del formulario
       preloadCompanyData(companyData);
     }
-
   });
 </script>
